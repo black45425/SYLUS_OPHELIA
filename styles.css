@@ -1,3 +1,196 @@
-.title {
-    color: green;
+/* --- 1. 전체 페이지 배경 (밝은 연기 질감 배경) --- */
+body {
+  background-image: url("images/gray_bg.png");
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: 1080px auto !important;
+  background-color: #f5f5f5; 
+  color: #222;
+  margin: 0;
+  padding: 0;
+}
+
+/* --- 2. 전체 홈페이지 틀 (최대 1080px + 좌우 20px 안전 여백) --- */
+.wrapper {
+  width: 100%;           /* 화면 크기에 맞춰 반응 */
+  max-width: 1080px;      /* 최대 1080px까지만 커짐 */
+  margin: 0 auto;        /* 화면 중앙 정렬 */
+  padding: 0 20px;       /* [안전 여백] 좌우 최소 20px 여백 확보 */
+  box-sizing: border-box; /* 패딩 포함 크기 계산 */
+}
+
+/* ==========================================
+   [1구역] 상단 HERO 배너 영역 (4개 레이어 배치 & 애니메이션)
+   ========================================== */
+.hero-banner {
+    position: relative;
+    width: 100%;
+    margin-bottom: 80px;
+    overflow: hidden;
+    background-color: #000;
+}
+
+/* 1. 맨 뒤 검은 배경 (기본 프레임) */
+.hero-bg {
+    width: 100%;
+    height: auto;
+    display: block;
+    opacity: 0;
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+/* 2. 우측 반원 인물 그림 (two.png) - 우측 배치 및 들어오는 효과 */
+.hero-arch-png {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;       /* 배너 우측 레이어에 딱 맞게 정렬 */
+    height: 100%;
+    object-fit: contain;
+    object-position: right center;
+    z-index: 1;
+    opacity: 0;
+    animation: slideFromRight 1.2s ease-out 0.2s forwards;
+}
+
+/* 3. 좌상단 타이틀 (title_sylus_ophelia.png) */
+.hero-title-png {
+    position: absolute;
+    top: 60px;
+    left: 60px;
+    width: 320px;
+    z-index: 2;
+    opacity: 0;
+    animation: 
+        slideFromLeft 1s ease-out 0.4s forwards,
+        floatAnimation 4s ease-in-out 1.4s infinite;
+}
+
+/* 4. 좌하단 로고 (love_and_deepspace_under.png) */
+.hero-footer-png {
+   position: absolute;
+    bottom: 50px;
+    left: 60px;
+    width: 580px;
+    z-index: 2;
+    opacity: 0;
+    /* 0.7초 뒤 아래에서 위로 올라옴 */
+    animation: slideUp 1s ease-out 0.7s forwards;
+}
+
+
+/* ==========================================
+   KEYFRAME 애니메이션 정의
+   ========================================== */
+
+/* 페이드인 */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* 아래 -> 위 */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 오른쪽 -> 왼쪽 (인물 그림용) */
+@keyframes slideFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(60px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* 왼쪽 -> 오른쪽 (타이틀용) */
+@keyframes slideFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* 타이틀 둥둥 일렁임 */
+@keyframes floatAnimation {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0); }
+}
+
+/* ==========================================
+   2. [프로필 이미지] 마우스 호버 반응 & 붉은 은은한 빛
+   ========================================== */
+.profile-photo {
+    transition: transform 0.4s ease, box-shadow 0.4s ease, filter 0.4s ease;
+}
+
+.profile-photo:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(180, 50, 50, 0.3); 
+}
+
+/* ==========================================
+   3. [전체 구역] 순차적 스르륵 등장 (Fade-In)
+   ========================================== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 각 구역에 등장 애니메이션 부여 (will-change 추가로 성능 향상) */
+.profile-section {
+    opacity: 0;
+    will-change: opacity, transform;
+    animation: fadeInUp 1.2s ease-out forwards;
+}
+
+.char-section {
+    opacity: 0;
+    will-change: opacity, transform;
+    animation: fadeInUp 1.2s ease-out 0.3s forwards;
+}
+
+.gallery-container {
+    opacity: 0;
+    will-change: opacity, transform;
+    animation: fadeInUp 1.2s ease-out 0.5s forwards;
+}
+
+.contact-section {
+    opacity: 0;
+    will-change: opacity, transform;
+    animation: fadeInUp 1.2s ease-out 0.7s forwards;
+}
+
+/* ==========================================
+   4. [트위터 링크] 호버 시 밝아지며 커지는 효과
+   ========================================== */
+.twitter-png {
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.twitter-png:hover {
+    transform: scale(1.03);
+    filter: brightness(1.2);
 }
