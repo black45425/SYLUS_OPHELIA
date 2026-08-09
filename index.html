@@ -2,6 +2,7 @@
 <html lang="ko">
     <head>
         <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Sylus & Ophelia</title>
         <style>
             /* 1. 페이지 전체 배경 및 기본 폰트 설정 */
@@ -50,18 +51,38 @@
                 height: auto;
                 display: block;
             }
+            
+            /* 우측 반원 인물 그림 absolute 위치 고정 */
+            .hero-arch-png {
+                position: absolute;
+                top: 0;
+                right: 85px;
+                height: 100%;
+                width: auto;
+                max-width: 65%;
+                margin-top: 30px;
+                object-fit: contain;
+                object-position: right top;
+                z-index: 1;
+                opacity: 0;
+                animation: slideFromRight 1.2s ease-out 0.2s forwards;
+            }
+
             .hero-title-png {
                 position: absolute;
-                top: 60px;
-                left: 60px;
-                width: 320px;
+                top: 8%;
+                left: 5%;
+                width: 35%;
+                max-width: 360px;
                 z-index: 2;
+                animation: floatAnimation 4s ease-in-out infinite;
             }
             .hero-footer-png {
                 position: absolute;
-                bottom: 50px;
-                left: 60px;
-                width: 580px;
+                bottom: 8%;
+                left: 5%;
+                width: 45%;
+                max-width: 500px;
                 z-index: 2;
             }
 
@@ -71,10 +92,17 @@
                 gap: 30px;
                 align-items: flex-start;
                 margin-bottom: 80px;
+                opacity: 0;
+                animation: fadeInUp 1.2s ease-out forwards;
             }
             .profile-photo {
                 width: 40%;
                 border-radius: 120px 120px 0 0;
+                transition: transform 0.4s ease, box-shadow 0.4s ease, filter 0.4s ease;
+            }
+            .profile-photo:hover {
+                transform: translateY(-5px) scale(1.02);
+                box-shadow: 0 10px 25px rgba(180, 50, 50, 0.3);
             }
             .profile-png-group {
                 width: 100%;
@@ -88,6 +116,8 @@
             /* [3구역] 캐릭터 정보 영역 */
             .char-section {
                 margin-bottom: 80px;
+                opacity: 0;
+                animation: fadeInUp 1.2s ease-out 0.3s forwards;
             }
             .char-grid {
                 display: grid;
@@ -102,6 +132,8 @@
                 display: flex;
                 align-items: center;
                 margin: 60px 0 80px 0;
+                opacity: 0;
+                animation: fadeInUp 1.2s ease-out 0.5s forwards;
             }
 
             .gallery-track-container {
@@ -116,7 +148,7 @@
             }
 
             .gallery-item {
-                flex: 0 0 calc(25% - 11.25px); /* 딱 4개씩 등분하여 배열 */
+                flex: 0 0 calc(25% - 11.25px);
                 cursor: pointer;
                 overflow: hidden;
                 border-radius: 4px;
@@ -134,7 +166,6 @@
                 transform: scale(1.05);
             }
 
-            /* 좌우 화살표 버튼 */
             .nav-btn {
                 background: none;
                 border: none;
@@ -151,7 +182,7 @@
                 color: #888;
             }
 
-            /* --- [확대 모달(라이트박스) 스타일] --- */
+            /* --- [확대 모달 스타일] --- */
             .modal {
                 display: none;
                 position: fixed;
@@ -205,6 +236,8 @@
                 border-top: 1px solid rgba(0, 0, 0, 0.1);
                 padding-top: 40px;
                 padding-bottom: 40px;
+                opacity: 0;
+                animation: fadeInUp 1.2s ease-out 0.7s forwards;
             }
             .contact-title-png {
                 width: 200px;
@@ -213,24 +246,59 @@
             .twitter-png {
                 width: 100%;
                 margin-bottom: 15px;
+                transition: transform 0.3s ease, filter 0.3s ease;
+            }
+            .twitter-png:hover {
+                transform: scale(1.03);
+                filter: brightness(1.2);
             }
             .copyright-png {
                 width: 250px;
                 margin: 30px auto 0 auto;
+            }
+
+            /* ANIMATIONS */
+            @keyframes floatAnimation {
+                0% { transform: translateY(0); }
+                50% { transform: translateY(-8px); }
+                100% { transform: translateY(0); }
+            }
+
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            @keyframes slideFromRight {
+                from {
+                    opacity: 0;
+                    transform: translateX(60px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
             }
         </style>
     </head>
 
     <body>
         <div class="wrapper">
-            <!-- [1구역] 상단 배너 (양옆 여백 없이 1080px 꽉 채움) -->
+            <!-- [1구역] 상단 배너 -->
             <header class="hero-banner">
                 <img src="images/main_banner.png" alt="Hero Background" class="hero-bg" />
+                <img src="images/two.png" alt="Sylus & Ophelia Illustration" class="hero-arch-png" />
                 <img src="images/title_sylus_ophelia.png" alt="Sylus & Ophelia" class="png-text hero-title-png" />
                 <img src="images/love_and_deepspace_under.png" alt="Love & Deepspace" class="png-text hero-footer-png" />
             </header>
 
-            <!-- 본문 영역 시작 (이 안의 요소들에만 좌우 20px 여백 적용) -->
+            <!-- 본문 영역 -->
             <div class="content-inner">
                 
                 <!-- [2구역] MAIN 프로필 -->
@@ -243,7 +311,7 @@
                     </div>
                 </section>
 
-                <!-- [3구역] Ryu E-Hwa 캐릭터 상세 -->
+                <!-- [3구역] 캐릭터 상세 -->
                 <section class="char-section">
                     <img src="images/name.png" alt="Ryu E-Hwa" class="png-text" style="width: 300px" />
 
@@ -253,7 +321,7 @@
                     </div>
                 </section>
 
-                <!-- [갤러리 섹션] -->
+                <!-- 갤러리 섹션 -->
                 <div class="gallery-container">
                     <button class="nav-btn prev-btn" onclick="moveSlide(-1)">&lt;</button>
 
@@ -271,7 +339,7 @@
                     <button class="nav-btn next-btn" onclick="moveSlide(1)">&gt;</button>
                 </div>
 
-                <!-- [4구역] 하단 Contact -->
+                <!-- [4구역] Contact -->
                 <footer class="contact-section">
                     <img src="images/contact.png" alt="Contact" class="png-text contact-title-png" />
 
@@ -283,18 +351,16 @@
                 </footer>
 
             </div>
-            <!-- 본문 영역 끝 -->
         </div>
 
-        <!-- 이미지 크게 보기 모달(팝업) -->
+        <!-- 이미지 확대 모달 -->
         <div class="modal" id="imageModal" onclick="closeModalOnBg(event)">
             <span class="modal-close" onclick="closeModal()">&times;</span>
             <button class="modal-btn modal-prev" onclick="changeModalImg(-1)">&lt;</button>
-           <img class="modal-content" id="modalImg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="확대 이미지" />
+            <img class="modal-content" id="modalImg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="확대 이미지" />
             <button class="modal-btn modal-next" onclick="changeModalImg(1)">&gt;</button>
         </div>
 
-        <!-- 동작 자바스크립트 -->
         <script>
             let currentSlide = 0;
             let currentModalIndex = 0;
@@ -302,12 +368,10 @@
             const track = document.getElementById('galleryTrack');
             const items = document.querySelectorAll('.gallery-item');
             const totalItems = items.length;
-            const itemsPerPage = 4; // 한 번에 보이는 개수
+            const itemsPerPage = 4;
 
-            // 이미지 경로 모음
             const imageSources = Array.from(items).map(item => item.querySelector('img').src);
 
-            // 1. 슬라이더 화살표 이동 함수
             function moveSlide(direction) {
                 const maxSlide = Math.max(0, totalItems - itemsPerPage);
                 currentSlide += direction;
@@ -315,12 +379,10 @@
                 if (currentSlide < 0) currentSlide = 0;
                 if (currentSlide > maxSlide) currentSlide = maxSlide;
 
-                // 25% + gap 간격만큼 이동
                 const moveAmount = currentSlide * (100 / itemsPerPage + 1.4); 
                 track.style.transform = `translateX(-${moveAmount}%)`;
             }
 
-            // 2. 모달(크게 보기) 열기
             function openModal(index) {
                 currentModalIndex = index;
                 const modal = document.getElementById('imageModal');
@@ -330,7 +392,6 @@
                 modal.style.display = 'flex';
             }
 
-            // 3. 모달 닫기
             function closeModal() {
                 document.getElementById('imageModal').style.display = 'none';
             }
@@ -341,7 +402,6 @@
                 }
             }
 
-            // 4. 모달 내부에서 이전/다음 이미지 보기
             function changeModalImg(direction) {
                 currentModalIndex += direction;
                 if (currentModalIndex < 0) currentModalIndex = totalItems - 1;
@@ -350,7 +410,6 @@
                 document.getElementById('modalImg').src = imageSources[currentModalIndex];
             }
 
-            // 키보드 Esc로 모달 닫기
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') closeModal();
             });
