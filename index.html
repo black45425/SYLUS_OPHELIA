@@ -56,7 +56,7 @@
             .hero-arch-png {
                 position: absolute;
                 top: 0;
-                right: 85px;
+                right: 45px;
                 height: 100%;
                 width: auto;
                 max-width: 65%;
@@ -113,17 +113,25 @@
                 margin-bottom: 0px;
             }
 
-            /* [3구역] 캐릭터 정보 영역 */
+            /* [3구역] 캐릭터 정보 영역 - PC 3단 Grid 기본 설정 */
             .char-section {
                 margin-bottom: 80px;
                 opacity: 0;
                 animation: fadeInUp 1.2s ease-out 0.3s forwards;
             }
-            .char-grid {
+            .char-grid-3col {
                 display: grid;
-                grid-template-columns: 1fr 2fr;
+                grid-template-columns: repeat(3, 1fr);
                 gap: 20px;
                 margin-top: 20px;
+            }
+            .col-item {
+                width: 100%;
+            }
+            .col-png {
+                width: 100%;
+                height: auto;
+                display: block;
             }
 
             /* --- [갤러리 슬라이더 스타일] --- */
@@ -257,6 +265,30 @@
                 margin: 30px auto 0 auto;
             }
 
+            /* --- [모바일 대응 미디어 쿼리 수정] --- */
+            @media (max-width: 768px) {
+                .profile-section {
+                    flex-direction: column;
+                    align-items: center;
+                }
+                .profile-photo {
+                    width: 70%;
+                }
+                .profile-png-group {
+                    margin-top: 20px;
+                }
+                
+                /* 모바일에서는 1단(세로) 배치 */
+                .char-grid-3col {
+                    grid-template-columns: 1fr;
+                    gap: 30px;
+                }
+
+                .gallery-item {
+                    flex: 0 0 calc(50% - 7.5px); /* 모바일에서는 2개씩 표시 */
+                }
+            }
+
             /* ANIMATIONS */
             @keyframes floatAnimation {
                 0% { transform: translateY(0); }
@@ -313,13 +345,24 @@
 
                 <!-- [3구역] 캐릭터 상세 -->
                 <section class="char-section">
-                    <img src="images/name.png" alt="Ryu E-Hwa" class="png-text" style="width: 300px" />
+                    <div class="char-grid-3col">
+                        <!-- 1열: 기본 프로필 (Profile) -->
+                        <div class="col-item">
+                            <img src="images/info.png" alt="Profile Info" class="col-png">
+                        </div>
 
-                    <div class="char-grid">
-                        <img src="images/info.png" alt="Info" class="png-text" />
-                        <img src="images/point.png" alt="Appearance & Personality" class="png-text" />
+                        <!-- 2열: 외모 상세 (Appearance) -->
+                        <div class="col-item">
+                            <img src="images/face.png" alt="Appearance Info" class="col-png">
+                        </div>
+
+                        <!-- 3열: 성격 상세 (Personality) -->
+                        <div class="col-item">
+                            <img src="images/person.png" alt="Personality Info" class="col-png">
+                        </div>
                     </div>
                 </section>
+                
 
                 <!-- 갤러리 섹션 -->
                 <div class="gallery-container">
@@ -368,21 +411,37 @@
             const track = document.getElementById('galleryTrack');
             const items = document.querySelectorAll('.gallery-item');
             const totalItems = items.length;
-            const itemsPerPage = 4;
+
+            // 모바일 여부 확인 (768px 이하)
+            function getItemsPerPage() {
+                return window.innerWidth <= 768 ? 2 : 4;
+            }
 
             const imageSources = Array.from(items).map(item => item.querySelector('img').src);
 
             function moveSlide(direction) {
+                const itemsPerPage = getItemsPerPage();
                 const maxSlide = Math.max(0, totalItems - itemsPerPage);
+                
                 currentSlide += direction;
 
                 if (currentSlide < 0) currentSlide = 0;
                 if (currentSlide > maxSlide) currentSlide = maxSlide;
 
-                const moveAmount = currentSlide * (100 / itemsPerPage + 1.4); 
-                track.style.transform = `translateX(-${moveAmount}%)`;
+                const gap = 15;
+                const percentPerItem = 100 / itemsPerPage;
+                const gapOffset = (gap * (itemsPerPage - 1)) / itemsPerPage;
+
+                track.style.transform = `translateX(calc(-${currentSlide * percentPerItem}% - ${currentSlide * gapOffset}px))`;
             }
 
+            // 창 크기 변경 시 슬라이더 범위를 넘어가는 버그 방지
+            window.addEventListener('resize', () => {
+                currentSlide = 0;
+                track.style.transform = 'translateX(0px)';
+            });
+
+            /* --- 모달 관련 기능 --- */
             function openModal(index) {
                 currentModalIndex = index;
                 const modal = document.getElementById('imageModal');
