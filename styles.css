@@ -68,13 +68,12 @@ body {
 
 /* 4. 좌하단 로고 (love_and_deepspace_under.png) */
 .hero-footer-png {
-   position: absolute;
+    position: absolute;
     bottom: 50px;
     left: 60px;
     width: 580px;
     z-index: 2;
     opacity: 0;
-    /* 0.7초 뒤 아래에서 위로 올라옴 */
     animation: slideUp 1s ease-out 0.7s forwards;
 }
 
@@ -132,9 +131,26 @@ body {
     100% { transform: translateY(0); }
 }
 
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* ==========================================
-   2. [프로필 이미지] 마우스 호버 반응 & 붉은 은은한 빛
+   2. [프로필 영역]
    ========================================== */
+.profile-section {
+    opacity: 0;
+    will-change: opacity, transform;
+    animation: fadeInUp 1.2s ease-out forwards;
+}
+
 .profile-photo {
     transition: transform 0.4s ease, box-shadow 0.4s ease, filter 0.4s ease;
 }
@@ -154,24 +170,10 @@ body {
     margin-bottom: 0px;
 }
 
-/* ==========================================
-   3. [전체 구역] 순차적 스르륵 등장 (Fade-In)
-   ========================================== */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* 캐릭터 상세 정보 (info.png와 point.png) 크기 밸런스 조정 */
+/* 캐릭터 상세 정보 (기존 2열 구조용 스타일 유지) */
 .char-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* 1:1로 조정하여 아래 글씨 크기 확보 */
+    grid-template-columns: 1fr 1fr;
     gap: 30px;
     align-items: start;
     margin-top: 20px;
@@ -181,13 +183,6 @@ body {
     width: 100%;
     height: auto;
     object-fit: contain;
-}
-
-/* 각 구역 등장 애니메이션 (will-change 성능 향상) */
-.profile-section {
-    opacity: 0;
-    will-change: opacity, transform;
-    animation: fadeInUp 1.2s ease-out forwards;
 }
 
 /* ==========================================
@@ -205,23 +200,29 @@ body {
 .char-grid-3col {
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 1:1:1 비율로 정확히 3등분 */
-  gap: 24px;                            /* 각 열 사이 간격 (필요시 20px~30px 조정) */
+  gap: 24px;                            /* 각 열 사이 간격 */
   align-items: start;                   /* 상단 정렬 */
   margin-top: 20px;
 }
 
 /* 각 열 및 PNG 이미지 기본 스타일 */
 .col-item {
-  width: 100%;
+    width: 100%;
+    overflow: hidden; /* 내부 이미지가 영역을 벗어나지 않도록 설정 */
 }
 
-
+/* [수정 완료] 중복 정리 및 닫는 괄호 오류 해결 */
 .col-png {
-  width: 100%;
-  height: auto;
-  display: block;
-  object-fit: contain;
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+    object-position: top center;
 }
+
+/* ==========================================
+   갤러리 및 컨택트 영역 애니메이션
+   ========================================== */
 .gallery-container {
     opacity: 0;
     will-change: opacity, transform;
@@ -234,9 +235,7 @@ body {
     animation: fadeInUp 1.2s ease-out 0.7s forwards;
 }
 
-/* ==========================================
-   4. [트위터 링크] 호버 시 밝아지며 커지는 효과
-   ========================================== */
+/* 트위터 링크 호버 효과 */
 .twitter-png {
     transition: transform 0.3s ease, filter 0.3s ease;
 }
