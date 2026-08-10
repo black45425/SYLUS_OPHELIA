@@ -12,7 +12,7 @@ body {
 
 /* --- 2. 전체 홈페이지 틀 (최대 1080px + 좌우 20px 안전 여백) --- */
 .wrapper {
-  width: 100%;           /* 화면 크기에 맞춰 반응 */
+  width: 100%;            /* 화면 크기에 맞춰 반응 */
   max-width: 1080px;      /* 최대 1080px까지만 커짐 */
   margin: 0 auto;        /* 화면 중앙 정렬 */
   padding: 0 20px;       /* [안전 여백] 좌우 최소 20px 여백 확보 */
@@ -144,6 +144,16 @@ body {
     box-shadow: 0 10px 25px rgba(180, 50, 50, 0.3); 
 }
 
+/* 프로필 옆 PNG 그룹 여백 조정 */
+.profile-png-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-top: 40px;
+    margin-bottom: 0px;
+}
+
 /* ==========================================
    3. [전체 구역] 순차적 스르륵 등장 (Fade-In)
    ========================================== */
@@ -158,19 +168,60 @@ body {
     }
 }
 
-/* 각 구역에 등장 애니메이션 부여 (will-change 추가로 성능 향상) */
+/* 캐릭터 상세 정보 (info.png와 point.png) 크기 밸런스 조정 */
+.char-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 1:1로 조정하여 아래 글씨 크기 확보 */
+    gap: 30px;
+    align-items: start;
+    margin-top: 20px;
+}
+
+.char-grid .png-text {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* 각 구역 등장 애니메이션 (will-change 성능 향상) */
 .profile-section {
     opacity: 0;
     will-change: opacity, transform;
     animation: fadeInUp 1.2s ease-out forwards;
 }
 
+/* ==========================================
+   [3구역] 캐릭터 상세 정보 (3단 칼럼 레이아웃)
+   ========================================== */
 .char-section {
-    opacity: 0;
-    will-change: opacity, transform;
-    animation: fadeInUp 1.2s ease-out 0.3s forwards;
+  width: 100%;
+  margin-bottom: 80px;
+  opacity: 0;
+  will-change: opacity, transform;
+  animation: fadeInUp 1.2s ease-out 0.3s forwards;
 }
 
+/* 3단 그리드 배치 설정 */
+.char-grid-3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 1:1:1 비율로 정확히 3등분 */
+  gap: 24px;                            /* 각 열 사이 간격 (필요시 20px~30px 조정) */
+  align-items: start;                   /* 상단 정렬 */
+  margin-top: 20px;
+}
+
+/* 각 열 및 PNG 이미지 기본 스타일 */
+.col-item {
+  width: 100%;
+}
+
+
+.col-png {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
 .gallery-container {
     opacity: 0;
     will-change: opacity, transform;
